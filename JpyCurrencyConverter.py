@@ -1,6 +1,7 @@
 import os
 import requests
 import tkinter as tk
+import sys
 
 
 headers = {
@@ -12,6 +13,13 @@ data = response.json()
 
 jpy_data = data["Valute"]["JPY"]
 jpy_converter_to_1 = jpy_data["Value"] / 100
+
+def resource_path(filename):
+    if getattr(sys, "frozen", False):
+        base = sys._MEIPASS
+    else:
+        base = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(base, filename)
 
 
 def start_convert():
@@ -37,7 +45,8 @@ def center_window(win, width, height):
 window = tk.Tk()
 window.config(bg="#1e1e1e")
 window.title("JPY to RUB Converter")
-window.iconbitmap('yui.ico')
+window.resizable(False, False)
+window.iconbitmap(resource_path("yui.ico"))
 
 center_window(window, 400, 265)
 
@@ -70,8 +79,7 @@ exchange_rate = tk.Label(
 )
 exchange_rate.place(x=10, y=200)
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-image_path = os.path.join(current_dir, "100x100 ayanami png.png")
+image_path = resource_path("100x100 ayanami png.png")
 
 my_icon = tk.PhotoImage(file=image_path)
 image_label = tk.Label(window, image=my_icon, bg="#1e1e1e")
